@@ -33,7 +33,6 @@ export default function Second() {
                 tx.executeSql("select * from blogs", [], (_, { rows }) => {
                     setData(rows._array);
                     setResults(rows._array);
-                    //console.log((rows)) 
                 }
 
                 );
@@ -41,7 +40,6 @@ export default function Second() {
 
         );
     }, [])
-    // console.log(data, 'old');
     const renderItem = ({ item, index }) => {
 
         return (
@@ -133,7 +131,6 @@ export default function Second() {
                                 },
                                 
                               )
-                            console.log(e.selected,e.id,'del')
                                 Actions.Second();
                             
                         }

@@ -63,15 +63,12 @@ export default function Third(props) {
                 var dateString = new Date();
                 dateString = dateString.toString();
                 dateString = dateString.split(' ').slice(0, 5).join(' ');
-                // console.log('table')
                 db.transaction(
                   (tx) => {
                     tx.executeSql("update blogs set title = ? , para = ? , img = ? ,updated_time = ?  where id = ? ", [title, para, img, dateString, props.id]);
                   },
 
                 );
-
-                console.log(title, para, img, dateString, props.id, 'hiiihdi');
                 Actions.Second();
               }}
             >

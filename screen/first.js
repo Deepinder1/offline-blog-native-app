@@ -78,7 +78,6 @@ export default function First() {
             var dateString = new Date();
             dateString = dateString.toString();
             dateString = dateString.split(' ').slice(0, 5).join(' ');
-            console.log('table')
             db.transaction(
               (tx) => {
                 tx.executeSql("INSERT into blogs (title,para,img,created_time,updated_time) VALUES ( ?,?,?,?,?)", [title, para, img,dateString,'']);
