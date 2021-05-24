@@ -11,6 +11,7 @@ import { Appbar, Searchbar, DefaultTheme } from "react-native-paper";
 import { db } from "../db/db";
 import { Actions } from "react-native-router-flux";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 export default function Second() {
@@ -109,7 +110,7 @@ export default function Second() {
         }}
         style={{
           flexDirection: "row",
-          backgroundColor: item.selected ? "grey" : "transparent",
+          backgroundColor: item.selected && deletable ? "grey" : "transparent",
           alignItems: "center",
           width: "100%",
           textAlignVertical: "center",
@@ -157,22 +158,36 @@ export default function Second() {
           }}
         />
         <Appbar.Content title="Blogs" />
-        <MaterialIcons
-        style={{marginRight: windowWidth * .03}}
-          onPress={() => {
-            data.forEach((e) => {
-              if (e.selected) {
-                db.transaction((tx) => {
-                  tx.executeSql(`delete from blogs where id = ?;`, [e.id]);
+        {deletable && (
+          <>
+            <MaterialIcons
+              style={{ marginRight: windowWidth * 0.03 }}
+              onPress={() => {
+                data.forEach((e) => {
+                  if (e.selected) {
+                    db.transaction((tx) => {
+                      tx.executeSql(`delete from blogs where id = ?;`, [e.id]);
+                    });
+                    Actions.refresh({ key: Math.random() });
+                  }
                 });
-                Actions.refresh({ key: Math.random() });
-              }
-            });
-          }}
-          name="delete"
-          size={24}
-          color="white"
-        />
+                setDeletable(false);
+              }}
+              name="delete"
+              size={24}
+              color="white"
+            />
+            <Entypo
+              style={{ marginRight: windowWidth * 0.03 }}
+              name="cross"
+              size={24}
+              color="white"
+              onPress={() => {
+                setDeletable(false);
+              }}
+            />
+          </>
+        )}
       </Appbar.Header>
       <Searchbar
         theme={theme}
