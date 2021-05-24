@@ -9,6 +9,7 @@ import {
   Title,
   Paragraph,
   DefaultTheme,
+  Snackbar,
 } from "react-native-paper";
 import { TextInput } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
@@ -20,6 +21,11 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function First() {
+  const [visible, setVisible] = React.useState(false);
+
+  const onToggleSnackBar = () => setVisible(!visible);
+
+  const onDismissSnackBar = () => setVisible(false);
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -59,6 +65,19 @@ export default function First() {
 
   return (
     <View style={{ display: "flex", flex: 1, backgroundColor: "black" }}>
+      <Snackbar
+        visible={visible}
+        style={{ backgroundColor: "#141414" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "Ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        Please Provide Title and Content
+      </Snackbar>
       <Appbar.Header
         style={{
           display: "flex",
@@ -80,7 +99,7 @@ export default function First() {
             flex: 1,
             justifyContent: "center",
             color: "white",
-            marginLeft: windowWidth * 0.04,
+            marginLeft: windowWidth * 0.025,
           }}
         >
           Write a Blog
@@ -105,32 +124,36 @@ export default function First() {
             }}
           />
         </TouchableOpacity>
-        <Card.Content>
-          <Paragraph style={{ color: "white" }}>Blog content</Paragraph>
+        
           <TextInput
-            style={{ backgroundColor: "black" }}
+            placeholder={"Blog Content"}
+            style={{ backgroundColor: "black", marginLeft: 2 }}
             theme={theme}
             value={para}
-            numberOfLines={2}
+            numberOfLines={1}
             multiline={true}
             onChangeText={(text) => setPara(text)}
           />
-        </Card.Content>
+        
 
         <Card.Actions>
           <Button
             theme={theme}
             onPress={() => {
-              var dateString = new Date();
-              dateString = dateString.toString();
-              dateString = dateString.split(" ").slice(0, 5).join(" ");
-              db.transaction((tx) => {
-                tx.executeSql(
-                  "INSERT into blogs (title,para,img,created_time,updated_time) VALUES ( ?,?,?,?,?)",
-                  [title, para, img, dateString, ""]
-                );
-              });
-              Actions.Second();
+              if (title && para) {
+                var dateString = new Date();
+                dateString = dateString.toString();
+                dateString = dateString.split(" ").slice(0, 5).join(" ");
+                db.transaction((tx) => {
+                  tx.executeSql(
+                    "INSERT into blogs (title,para,img,created_time,updated_time) VALUES ( ?,?,?,?,?)",
+                    [title, para, img, dateString, ""]
+                  );
+                });
+                Actions.Second();
+              } else {
+                onToggleSnackBar();
+              }
             }}
           >
             Save{" "}

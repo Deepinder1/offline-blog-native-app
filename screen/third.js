@@ -109,25 +109,16 @@ export default function Third(props) {
               }}
             />
           </TouchableOpacity>
-          <Card.Content>
-            <Paragraph style={{ fontWeight: "bold" }}>Blog content</Paragraph>
-            <TextInput
-              style={{ backgroundColor: "black" }}
-              theme={theme}
-              value={para}
-              numberOfLines={2}
-              multiline={true}
-              onChangeText={(text) => setPara(text)}
-            />
-            <Text style={{ color: "grey", fontSize: 9 }}>
-              {" "}
-              Created: {props.created_time}
-            </Text>
-            <Text style={{ color: "grey", fontSize: 9 }}>
-              {" "}
-              {props.updated_time && `Updated: ${props.updated_time}`}
-            </Text>
-          </Card.Content>
+
+          <TextInput
+            style={{ backgroundColor: "black" }}
+            theme={theme}
+            value={para}
+            numberOfLines={2}
+            multiline={true}
+            onChangeText={(text) => setPara(text)}
+          />
+
           <Card.Actions>
             {editable && (
               <Button
@@ -151,8 +142,11 @@ export default function Third(props) {
           </Card.Actions>
         </Card>
       ) : (
-        <Card style={{backgroundColor: "black"}}>
-          <Title theme={theme} style={{ marginBottom: 5, marginLeft: 13, color: "white" }}>
+        <Card style={{ backgroundColor: "black" }}>
+          <Title
+            theme={theme}
+            style={{ marginBottom: 5, marginLeft: 9, color: "white" }}
+          >
             {" "}
             {props.title}
           </Title>
@@ -166,30 +160,28 @@ export default function Third(props) {
           />
           <Card.Content>
             <Paragraph
-            theme={theme}
-              style={{ textAlign: "justify" }}
+              theme={theme}
+              style={{ textAlign: "justify", fontSize: 18 }}
               numberOfLines={50}
               ellipsizeMode="tail"
             >
               {props.para}
             </Paragraph>
-            <Text style={{ color: "grey", fontSize: 9 }}>
+            <Text style={{ color: "grey", fontSize: 12 }}>
               {" "}
               Created: {props.created_time}
             </Text>
-            <Text style={{ color: "grey", fontSize: 9 }}>
+            <Text style={{ color: "grey", fontSize: 12 }}>
               {" "}
               {props.updated_time && `Updated: ${props.updated_time}`}
             </Text>
           </Card.Content>
           <Card.Actions>
             <Button
-            theme={theme}
+              theme={theme}
               onPress={async () => {
                 let message =
-                  "Title \n " +
                   `${props.title} \n \n ` +
-                  "Content \n \n" +
                   `${props.para} \n`;
                 try {
                   const result = await Share.share({
