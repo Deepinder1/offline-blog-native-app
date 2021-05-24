@@ -125,7 +125,7 @@ export default function Third(props) {
             </Text>
             <Text style={{ color: "grey", fontSize: 9 }}>
               {" "}
-              Updated:{props.updated_time}
+              {props.updated_time && `Updated: ${props.updated_time}`}
             </Text>
           </Card.Content>
           <Card.Actions>

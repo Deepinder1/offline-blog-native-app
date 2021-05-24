@@ -42,7 +42,6 @@ export default function First() {
 
   const [title, setTitle] = React.useState("");
   const [para, setPara] = React.useState("");
-  const [truncated, readMore] = React.useState(true);
   const [img, setImg] = React.useState("");
 
   const pickImage = async () => {
