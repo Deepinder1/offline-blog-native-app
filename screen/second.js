@@ -29,7 +29,6 @@ export default function Second() {
     React.useEffect(() => {
         db.transaction(
             (tx) => {
-                //  tx.executeSql("insert into blogs (title,para,img) values ( ?,?,?)", [text,paratext,img]);
                 tx.executeSql("select * from blogs", [], (_, { rows }) => {
                     setData(rows._array);
                     setResults(rows._array);
