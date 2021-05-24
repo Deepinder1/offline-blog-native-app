@@ -1,10 +1,31 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
-import { Appbar, Searchbar } from "react-native-paper";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  Dimensions,
+} from "react-native";
+import { Appbar, Searchbar, DefaultTheme } from "react-native-paper";
 import { db } from "../db/db";
 import { Actions } from "react-native-router-flux";
 import { MaterialIcons } from "@expo/vector-icons";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 export default function Second() {
+  const theme = {
+    ...DefaultTheme,
+    roundness: 5,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: "#fff",
+      color: "#fff",
+      placeholder: "grey",
+      backgroundColor: "black",
+      text: "#fff",
+    },
+  };
   const [data, setData] = React.useState([]);
   const [results, setResults] = React.useState([]);
   const [deletable, setDeletable] = React.useState(false);
@@ -99,7 +120,13 @@ export default function Second() {
         }}
       >
         <Image
-          style={{ width: 75, height: 75, borderRadius: 35, marginRight: 10 }}
+          style={{
+            width: 75,
+            height: 75,
+            borderRadius: 35,
+            marginRight: 10,
+            backgroundColor: "white",
+          }}
           source={{
             uri: item.img
               ? item.img
@@ -107,15 +134,23 @@ export default function Second() {
           }}
         />
         <View style={{ flex: 1 }}>
-          <Text>{item.title}</Text>
-          <Text>{item.para.slice(0, 30) + "......"}</Text>
+          <Text style={{ color: "white" }}>{item.title}</Text>
+          <Text style={{ color: "white" }}>
+            {item.para.slice(0, 30) + "......"}
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
   return (
-    <View style={{ flex: 1, display: "flex" }}>
-      <Appbar.Header style={{ display: "flex", flexDirection: "row" }}>
+    <View style={{ flex: 1, display: "flex", backgroundColor: "black" }}>
+      <Appbar.Header
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          backgroundColor: "#141414",
+        }}
+      >
         <Appbar.BackAction
           onPress={() => {
             Actions.pop();
@@ -123,13 +158,14 @@ export default function Second() {
         />
         <Appbar.Content title="Blogs" />
         <MaterialIcons
+        style={{marginRight: windowWidth * .03}}
           onPress={() => {
             data.forEach((e) => {
               if (e.selected) {
                 db.transaction((tx) => {
                   tx.executeSql(`delete from blogs where id = ?;`, [e.id]);
                 });
-                Actions.refresh({key: Math.random()});
+                Actions.refresh({ key: Math.random() });
               }
             });
           }}
@@ -139,6 +175,10 @@ export default function Second() {
         />
       </Appbar.Header>
       <Searchbar
+        theme={theme}
+        style={{
+          backgroundColor: "black",
+        }}
         placeholder="Search"
         onChangeText={onChangeSearch}
         value={searchQuery}
