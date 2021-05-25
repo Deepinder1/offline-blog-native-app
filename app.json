@@ -4,9 +4,9 @@
     "slug": "dev",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/blog-logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/blog-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/blog-logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
